@@ -1,20 +1,53 @@
 // Code your design here
-interface memory;
+
+interface mem_interface(input bit clock);
   logic mem_en;
   logic rd_wr_mem;
   logic [7:0]mem_data;
   logic [1:0] mem_add;
   
-  task memoperation(input mem_en, rd_wr_mem, mem_data, mem_add)
-    
-    while(mem_wn == 1) begin
-    if (rd_wr_mem)
-      mem[mem_add]=mem_data;
-    else 
-      mem_data=mem[mem_add];
-    end
-    
-  endtask
+  clocking cb @(posedge clk)
+    default input #1 output #1
+    output mem_en;
+    output rd_wr_mem; 
+    output mem_data;
+    output mem_add;
+  endclocking
+
+  modport mem(clocking cb, input clk)
   
 endinterface
 
+
+interface inputSW(posedge bit clk, input bit reset);
+  
+  logic [7:0]data_in;
+  logic data_status;
+  logic reset;
+  
+  clocking cb@(posedge clk)
+    default input #1, output #1;
+    output data_in;
+    output data_status;
+  endclocking  
+  
+  modport IP(clocking cb, input clk, output reset);
+  
+endinterface
+
+interface outputSW(input bit clk)
+logic [7:0] data_out; 
+logic ready;
+logic read;
+
+clocking cb@posedge clk)
+  default input #1, output #1;
+  input ready; 
+  input data_out;
+  output read; 
+  
+endclocking
+
+modport OP(clocking cb, input clk);
+
+endinterface
