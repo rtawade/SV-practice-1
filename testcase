@@ -1,0 +1,22 @@
+program testcase (
+   mem_interface.mem,
+   mem_interface 
+   inputSW.IP,
+   inputSW,
+   outputSW.OP,
+   outputSW[4]);
+   
+   initial 
+   begin 
+   $display("------------------------start of the testcase -----------------------");
+   end
+   
+   
+   final 
+   begin 
+   $display("------------------------end of the testcase -----------------------");
+   end
+  
+  endprogram 
+   
+   
